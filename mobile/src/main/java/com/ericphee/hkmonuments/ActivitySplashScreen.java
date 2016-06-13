@@ -13,12 +13,36 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.ericphee.hkmonuments.Geofence.GeofenceStore;
 import com.ericphee.hkmonuments.databases.DatabaseAccess;
+import com.google.android.gms.location.Geofence;
+import com.google.android.gms.maps.model.LatLng;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by ERic Phee on 5/15/2016.
  */
 public class ActivitySplashScreen extends Activity{
+
+    /**
+     * Geofences Array
+     */
+    ArrayList<Geofence> mGeofences;
+
+    /**
+     * Geofence Coordinates
+     */
+    ArrayList<LatLng> mGeofenceCoordinates;
+
+    private GeofenceStore mGeofenceStore;
+
+    private List<MonumentsVo> monumentsVoList  = null;
+
+    private static final Integer MAP_RADIUS = 100;
+
+
 
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
@@ -67,9 +91,26 @@ public class ActivitySplashScreen extends Activity{
                     DatabaseAccess databaseAccess = DatabaseAccess.getInstance(ActivitySplashScreen.this);
                     databaseAccess.open();
                     if (!databaseAccess.getInitStatus()){
+                        mGeofences = new ArrayList<Geofence>();
+                        mGeofenceCoordinates = new ArrayList<LatLng>();
+                        databaseAccess.open();
+                        monumentsVoList  = databaseAccess.getMonuments();
+                        databaseAccess.close();
+                        for (MonumentsVo vo : monumentsVoList) {
+                            mGeofenceCoordinates.add(new LatLng(vo.getLatitude(), vo.getLongitude()));
+                            mGeofences.add(new Geofence.Builder()
+                                    .setRequestId(vo.getName())
+                                    .setCircularRegion(vo.getLatitude(), vo.getLongitude(), MAP_RADIUS)
+                                    .setExpirationDuration(Geofence.NEVER_EXPIRE)
+                                    .setLoiteringDelay(30000)
+                                    .setTransitionTypes(
+                                            Geofence.GEOFENCE_TRANSITION_ENTER
+                                                    | Geofence.GEOFENCE_TRANSITION_DWELL
+                                                    | Geofence.GEOFENCE_TRANSITION_EXIT).build());
+                        }
 
+                        mGeofenceStore = new GeofenceStore(ActivitySplashScreen.this, mGeofences);
                     }
-
 
                     Intent intent = new Intent(ActivitySplashScreen.this, ActivityMain.class);
                     //Intent intent = new Intent(ActivitySplashScreen.this, ActivityListMonuments.class);
@@ -88,10 +129,11 @@ public class ActivitySplashScreen extends Activity{
 
     }
 
-    private void startGeofence() {
 
+    @Override
+    protected void onStart() {
+        super.onStart();
     }
-
 
 
 

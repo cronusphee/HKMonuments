@@ -28,7 +28,8 @@ import java.util.List;
 public class ActivityMain extends Activity implements AdapterView.OnItemClickListener {
 
     ListView listView;
-    String[] menu = {"Declared monuments In Hong Kong", "Show nearest monument", "Show All in Map", "Setting"};
+//    String[] menu = {"Declared monuments In Hong Kong", "Show nearest monument", "Show All in Map", "Setting"};
+    String[] menu = {"Declared monuments In Hong Kong", "Show All in Map","About"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,14 @@ public class ActivityMain extends Activity implements AdapterView.OnItemClickLis
         //Toast.makeText(ActivityMain.this, temp.getText() + " Position: " +position, Toast.LENGTH_SHORT).show();
         if (position == 0) {
             Intent intent = new Intent(ActivityMain.this, ActivityListMonuments.class);
+            //intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivity(intent);
+        } else  if (position ==1) {
+            Intent intent = new Intent(ActivityMain.this, ActivityGeoFencesMaps.class);
+            //intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivity(intent);
+        }else  if (position ==2) {
+            Intent intent = new Intent(ActivityMain.this, ActivityAbout.class);
             //intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivity(intent);
         }

@@ -116,6 +116,24 @@ public class DatabaseAccess {
         return monumentsVo;
     }
 
+
+    /**
+     * Read Monuments from the database by ID.
+     *
+     * @return a MonumentsVo
+     */
+    public Integer getMonumentIDbyTitle(String title) {
+        int result = 0;
+        String selectQuery = "SELECT ID FROM Monuments WHERE NAME = '" +title +"'";
+        Cursor cursor = database.rawQuery(selectQuery, null);
+        if (cursor != null){
+            cursor.moveToFirst();
+            result= cursor.getInt(0);
+        }
+        cursor.close();
+        return result;
+    }
+
     /**
      * Read initiation status from the database by ID.
      *
@@ -138,4 +156,6 @@ public class DatabaseAccess {
         String strSQL = "UPDATE InitGeofence SET INITIATION_STATUS = 1";
         database.execSQL(strSQL);
     }
+
+
 }

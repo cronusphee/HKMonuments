@@ -3,10 +3,7 @@
     <string name="name">ListViewBaseAdapter</string>
     <string name="image">Thumbnail</string>
     <string name="title_activity_activity_monument_maps">Map</string>
-    <string name="title_activity_activity_navigation">Navigation</string>
 
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
 
@@ -18,7 +15,5 @@
         Click notification to return to app
     </string>
     <string name="title_activity_activity_geo_fences_maps">Map</string>
-     
-
 
 </resources>
